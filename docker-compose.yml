@@ -1,0 +1,35 @@
+services:
+  giga_bot:
+    build:
+      context: .
+
+    volumes:
+      - ./giga_bot:/giga_bot
+
+    env_file:
+      - .env
+
+    command: python bot.py
+
+    depends_on:
+      - database
+    restart: always
+
+  database:
+    image: postgres:14.6-alpine
+    restart: always
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${pg_db}
+      POSTGRES_USER: ${pg_user}
+      POSTGRES_PASSWORD: ${pg_password}
+      POSTGRES_PORT: 5432
+      POSTGRES_HOST: database
+
+    expose:
+      - 5432
+      
+
+networks:
+  grid-network:
+    driver: bridge
