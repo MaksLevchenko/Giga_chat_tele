@@ -11,5 +11,5 @@ router = Router()
 @router.message()
 async def fill_link(message: Message):
     """Этот хэндлер будет срабатывать когда начнётся общение"""
-    text = get_gpt_response(message.text)
+    text = await get_gpt_response(text=message.text, user_id=message.from_user.id)
     await message.answer(text=text)

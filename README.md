@@ -26,7 +26,7 @@ Telegram Bot с Имитацией Человеческого Общения
 Получите необходимые токены:
 
     Получение токена для бота: Зарегистрируйтесь в @BotFather и получите уникальный токен вашего нового бота.
-    
+
     Нужно получить Authorization key полученный у gigachat.
     Его можно получить вот здесь:
     https://developers.sber.ru/docs/ru/gigachat/quickstart/ind-using-api#poluchenie-avtorizatsionnyh-dannyh
@@ -35,6 +35,13 @@ Telegram Bot с Имитацией Человеческого Общения
 
     BOT_TOKEN=<Сюда вставте токен полученный у @BotFather>
     GIGACHAT_KEY=<Сюда вставте Authorization key полученный у gigachat>
+    pg_db=<Сюда вставте название вашей базы данных>
+    pg_password=<Сюда вставте пароль вашей базы данных>
+    pg_db=<Сюда вставте пользователя вашей базы данных>
+
+Затем надо выполнить миграцию в базу данных, командой:
+
+    alembic upgrade head 
 
 Запустите приложение:
 

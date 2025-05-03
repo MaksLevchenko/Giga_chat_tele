@@ -2,15 +2,18 @@ from business_bot.handlers import (
     chat_handlers,
     other_handlers,
 )
-from business_bot.config.config import load_config
+from config.settings import settings
 import asyncio
 from aiogram import Bot, Dispatcher
 
 
-config = load_config()
+max_messages = 400
 # Вместо BOT TOKEN HERE нужно вставить токен вашего бота,
 # полученный у @BotFather
-BOT_TOKEN = config.tg_bot.token
+BOT_TOKEN = settings.bot_token
+
+
+messages = [{"role": "system", "content": "Имитируй обычное человеческое общение."}]
 
 
 async def main():
@@ -19,9 +22,8 @@ async def main():
     bot = Bot(BOT_TOKEN)
     dp = Dispatcher()
 
-    dp.include_router(chat_handlers.router)
-
     dp.include_router(other_handlers.router)
+    dp.include_router(chat_handlers.router)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
