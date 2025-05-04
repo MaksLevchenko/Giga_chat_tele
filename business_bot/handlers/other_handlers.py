@@ -2,6 +2,8 @@ from aiogram import Router
 from aiogram.types import Message
 from aiogram.filters import Command
 
+from crud.crud import clear_message_from_memory_bot
+
 
 router = Router()
 
@@ -21,4 +23,5 @@ async def get_help(message: Message):
 @router.message(Command(commands="reset"))
 async def get_reset(message: Message):
     """Срабатывает при команде /reset"""
+    await clear_message_from_memory_bot(user_id=message.from_user.id, all=True)
     await message.answer(text="Предыдущие сообщения удалены из памяти бота.")
