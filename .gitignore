@@ -1,6 +1,6 @@
 .env
 .venv
-/__pycache__
+__pycache__/
 
 # VSCode
 .vscode/*
@@ -39,8 +39,9 @@ creds.js
 
 
 # Byte-compiled / optimized / DLL files
-__pycache__/
+**/__pycache__/
 *.py[cod]
+*.pyc[cod]
 *$py.class
 
 # C extensions
@@ -176,3 +177,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+**/*.pyc
+**/*.pyo
+**/*.pyd
+**/__pycache__

@@ -1,6 +1,7 @@
 from business_bot.handlers import (
     chat_handlers,
     other_handlers,
+    style_handlers,
 )
 from keyboards import set_main_menu
 from config.settings import settings
@@ -22,6 +23,7 @@ async def main():
     await set_main_menu(bot)
 
     dp.include_router(other_handlers.router)
+    dp.include_router(style_handlers.router)
     dp.include_router(chat_handlers.router)
 
     await bot.delete_webhook(drop_pending_updates=True)

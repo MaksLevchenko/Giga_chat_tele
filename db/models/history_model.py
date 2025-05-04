@@ -7,7 +7,7 @@ from db import Base
 class ConversationHistory(Base):
     __tablename__ = "conversation_history"
 
-    user_id = Column(Integer, nullable=False)
+    user_id = Column(String, nullable=False)
     role = Column(String, nullable=False)
     role_bot = Column(String, nullable=True)
     style = Column(String, nullable=False, server_default="Обычном")

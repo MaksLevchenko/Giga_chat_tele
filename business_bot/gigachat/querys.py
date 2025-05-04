@@ -9,7 +9,7 @@ from config.settings import settings
 from .models import model
 
 
-async def get_gpt_response(text: str, user_id: int):
+async def get_gpt_response(text: str, user_id: str):
     """Обращается к gigachat и возвращает ответ от нейросети"""
 
     loaded_records = await load_messages_from_db(

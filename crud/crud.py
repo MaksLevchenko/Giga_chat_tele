@@ -7,7 +7,7 @@ from db.models import ConversationHistory
 
 
 async def save_messages_to_db(
-    user_id: int,
+    user_id: str,
     message: BaseMessage,
     style: str | None = None,
     role_bot: str | None = None,
@@ -25,7 +25,7 @@ async def save_messages_to_db(
         await db_session.close()
 
 
-async def load_messages_from_db(user_id: int) -> List[BaseMessage]:
+async def load_messages_from_db(user_id: str) -> List[BaseMessage]:
     async with pg_async_session() as db_session:
         statement = (
             select()
@@ -38,7 +38,7 @@ async def load_messages_from_db(user_id: int) -> List[BaseMessage]:
 
 
 async def clear_message_from_memory_bot(
-    user_id: int, all: bool = False, first_record: ConversationHistory = None
+    user_id: str, all: bool = False, first_record: ConversationHistory = None
 ) -> bool:
     """Удаляет сообщения из базы данных"""
 

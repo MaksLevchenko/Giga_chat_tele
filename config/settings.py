@@ -50,8 +50,8 @@ class Settings(BaseSettings):
                     scheme=self.pg_scheme,
                     username=self.pg_user,
                     password=self.pg_password,
-                    # host=self.pg_host,
-                    host="database",
+                    host=self.pg_host,
+                    # host="database",
                     port=self.pg_port,
                     path=self.pg_db,
                 )
