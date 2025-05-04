@@ -6,15 +6,21 @@ from sqlalchemy import select, func
 from db.models import ConversationHistory
 
 
-async def save_messages_to_db(user_id: int, messages: List[BaseMessage]):
+async def save_messages_to_db(
+    user_id: int,
+    message: BaseMessage,
+    style: str | None = None,
+    role_bot: str | None = None,
+):
     async with pg_async_session() as db_session:
-        for msg in messages:
-            new_record = ConversationHistory(
-                user_id=user_id,
-                role=msg.type,  # Преобразование type в строку
-                content=msg.content,
-            )
-            db_session.add(new_record)
+        new_record = ConversationHistory(
+            user_id=user_id,
+            role=message.type,
+            style=style,
+            role_bot=role_bot,
+            content=message.content,
+        )
+        db_session.add(new_record)
         await db_session.commit()
         await db_session.close()
 

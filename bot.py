@@ -13,9 +13,6 @@ from aiogram import Bot, Dispatcher
 BOT_TOKEN = settings.bot_token
 
 
-messages = [{"role": "system", "content": "Имитируй обычное человеческое общение."}]
-
-
 async def main():
 
     # Создаем объекты бота и диспетчера

@@ -12,7 +12,7 @@ GIGACHAT_KEY = (
 model = GigaChat(
     credentials=GIGACHAT_KEY,
     scope="GIGACHAT_API_PERS",
-    model="GigaChat",
+    model="GigaChat-2",
     streaming=False,
     verify_ssl_certs=False,
 )
