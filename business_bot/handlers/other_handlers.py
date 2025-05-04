@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import F, Router
 from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command, StateFilter
 from aiogram.fsm.context import FSMContext
@@ -40,11 +40,56 @@ async def get_stule(message: Message, state: FSMContext):
     """Срабатывает при команде /style"""
 
     markup = add_keyboard(
-        2, "Вежливый", "Грубый", "Деловой", "Насмешливый", "Юморной", "Неформальный"
+        2,
+        "Вежливый",
+        "Грубый",
+        "Деловой",
+        "Насмешливый",
+        "Юморной",
+        "Неформальный",
+        "Своё",
     )
     await message.answer(text="Выберите стиль:", reply_markup=markup)
 
     await state.set_state(FSMEditStyle.fill_style)
+
+
+@router.callback_query(
+    (StateFilter(FSMEditStyle.fill_style) or StateFilter(FSMEditStyle.fill_role))
+    and F.data == "Своё"
+)
+async def edit_custom_role_and_style(callback: CallbackQuery, state: FSMContext):
+    """Срабатывает при смене стиля и роли общения на своё"""
+
+    await callback.message.answer(text="Введите роль бота:")
+    await state.set_state(FSMEditStyle.fill_custom_role)
+
+
+@router.message(StateFilter(FSMEditStyle.fill_custom_role))
+async def edit_custom_role(message: Message, state: FSMContext):
+    """Срабатывает при вводе роли бота"""
+
+    await state.update_data(new_role=message.text)
+    await message.answer(text="Теперь введите новый стиль общения:")
+    await state.set_state(FSMEditStyle.fill_custom_style)
+
+
+@router.message(StateFilter(FSMEditStyle.fill_custom_style))
+async def edit_custom_style(message: Message, state: FSMContext):
+    """Срабатывает при вводе стиля общения бота"""
+
+    user_id = message.from_user.id
+    style = message.text
+    role_bot = await state.get_data()
+    await save_messages_to_db(
+        user_id=user_id,
+        message=HumanMessage(content="Смена стиля и роли общения на своё"),
+        style=style,
+        role_bot=role_bot["new_role"],
+    )
+
+    await message.answer(text="Стиль успешно сменён")
+    await state.clear()
 
 
 @router.callback_query(StateFilter(FSMEditStyle.fill_style))
@@ -73,7 +118,7 @@ async def edit_style(callback: CallbackQuery, state: FSMContext):
 async def get_role(message: Message, state: FSMContext):
     """Срабатывает при команде /role"""
 
-    markup = add_keyboard(2, "Психолог", "Друг", "Враг", "Пьяный ковбой")
+    markup = add_keyboard(2, "Психолог", "Друг", "Враг", "Пьяный ковбой", "Своё")
     await message.answer(text="Выберите роль бота:", reply_markup=markup)
 
     await state.set_state(FSMEditStyle.fill_role)
