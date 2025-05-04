@@ -48,7 +48,7 @@ async def edit_custom_style(message: Message, state: FSMContext):
         role_bot=role_bot["new_role"],
     )
 
-    await message.answer(text="Стиль успешно сменён")
+    await message.answer(text="Стиль и роль бота прошли успешно")
     await state.clear()
 
 
